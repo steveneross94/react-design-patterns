@@ -6,7 +6,7 @@ const LeftHandComponent = () => {
 } 
 
 const RightHandComponent = () => {
-  return <h1 style={{ backgroundColor: 'blue'}}>Right!</h1>
+  return <h1 style={{ backgroundColor: 'red'}}>Right!</h1>
 } 
 
 function App() {
