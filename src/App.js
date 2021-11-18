@@ -1,6 +1,8 @@
+import { NumberedList } from './NumberedList';
 import './App.css';
 import { LargePersonListItem } from './people/LargePersonListItem';
 import { SmallPersonListItem } from './people/SmallPersonListItem';
+import { LargeProductListItem } from './products/LargeProductListItem';
 import { RegularList } from './RegularList';
 // import { SplitScreen } from './SplitScreen';
 
@@ -50,6 +52,11 @@ function App() {
         items={people}
         resourceName="person"
         itemComponent={LargePersonListItem}
+      />
+      <NumberedList 
+        items={products}
+        resourceName={"product"}
+        itemComponent={LargeProductListItem}
       />
     </>
   );
