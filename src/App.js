@@ -1,18 +1,30 @@
 import { UserInfo } from "./UserInfo";
-import { UserLoader } from "./UserLoader";
+import { DataSource } from "./DataSource";
+import axios from "axios";
+
+const getServerData = url => async () => {
+  const response = await axios.get(url);
+  return response.data
+}
+
+const getLocalStorageData = key => () => {
+  return localStorage.getItem(key);
+
+}
+
+const Text = ({ message }) => {
+  return <h1>{message}</h1>
+}
 
 function App() {
   return (
     <>
-      <UserLoader userId="234">
+      <DataSource getDataFunc={getServerData('/users/123')} resourceName={"user"}>
         <UserInfo />
-      </UserLoader>
-      <UserLoader userId="123">
-        <UserInfo />
-      </UserLoader>
-      <UserLoader userId="345">
-        <UserInfo />
-      </UserLoader>
+      </DataSource>
+      <DataSource getDataFunc={getLocalStorageData('message')} resourceName="message">
+        <Text/>
+      </DataSource>
     </>
   );
 }
