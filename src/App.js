@@ -1,30 +1,57 @@
-import { UserInfo } from "./UserInfo";
-import { DataSource } from "./DataSource";
-import axios from "axios";
+import { useState } from "react";
+import { ControlledOnboardingFlow } from "./ControlledOnboardingFlow";
+// import { ControlledForm } from "./ControlledForm";
 
-const getServerData = url => async () => {
-  const response = await axios.get(url);
-  return response.data
-}
+const StepOne = ({ goToNext }) => (
+  <>
+    <h1>Step 1</h1>
+    <button onClick={() => goToNext({ name: "John Doe" })}>Next</button>
+  </>
+);
+const StepTwo = ({ goToNext }) => (
+  <>
+    <h1>Step 2</h1>
+    <button onClick={() => goToNext({ age: 100 })}>Next</button>
+  </>
+)
+const StepThree = ({ goToNext }) => (
+  <>
+    <h1>Step 3</h1>
+    <p>Congrats. You qualify for our senior discount.</p>
+    <button onClick={() => goToNext({})}>Next</button>
+  </>
+)
 
-const getLocalStorageData = key => () => {
-  return localStorage.getItem(key);
+const StepFour = ({ goToNext }) => (
+  <>
+    <h1>Step 4</h1>
+    <button onClick={() => goToNext({ hairColor: "Brown" })}>Next</button>
+  </>
+)
 
-}
-
-const Text = ({ message }) => {
-  return <h1>{message}</h1>
-}
 
 function App() {
+
+  const [onboardingData, setOnboardingData] = useState({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+
+const onNext = stepData => {
+  setOnboardingData({...onboardingData, ...stepData})
+  setCurrentIndex(currentIndex + 1)
+}
+
   return (
     <>
-      <DataSource getDataFunc={getServerData('/users/123')} resourceName={"user"}>
-        <UserInfo />
-      </DataSource>
-      <DataSource getDataFunc={getLocalStorageData('message')} resourceName="message">
-        <Text/>
-      </DataSource>
+      <ControlledOnboardingFlow 
+        currentIndex={currentIndex}
+        onNext={onNext}
+      >
+        <StepOne />
+        <StepTwo />
+        { onboardingData.age >= 62 && <StepThree />}
+        <StepFour />
+      </ControlledOnboardingFlow>
     </>
   );
 }
