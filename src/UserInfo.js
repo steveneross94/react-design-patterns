@@ -1,5 +1,16 @@
-export const UserInfo = ({ user }) => {
+import { useDataSource } from "./useDataSource";
+import axios from "axios";
+
+const serverResource = resourceUrl => async () => {
+    const response = await axios.get(resourceUrl)
+    return response.data;
+}
+
+export const UserInfo = ({ userId }) => {
+    // const user = useResource(`/users/${userId}`)
+    const user = useDataSource(serverResource(`/users/${userId}`))
     const { name, age, hairColor, hobbies } = user || {};
+
     return user ? (
         <>
             <h3>{name}</h3>
